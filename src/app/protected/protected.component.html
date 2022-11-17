@@ -1,0 +1,16 @@
+<div class="container-fluid">
+    <div class="row sidenav">
+     <div class="col-md-3 card px-0"> <!--ma barre de navigation va prendre trois colonnes de large, soit ¼ de la page-->
+      <al-sidenav></al-sidenav>
+     </div>
+     <div class="offset-md-1 col-md-7 mt-5">
+      <router-outlet></router-outlet>
+     </div>
+    </div>
+   </div>
+
+<!--
+La classe offset-md-1 : Définit une colonne vide, sur les douze proposées par Bootstrap. Cela nous permet d’afficher un espace entre la barre de navigation et le contenu de nos pages.
+La classe col-md-7 : Idem que pour la barre de navigation, mais cette fois-ci on définit le contenu de nos pages sur sept colonnes de Bootstrap, soit un peu plus de la moitié.
+La classe mt-5 : Cette classe signifie “margin-top”, et le chiffre cinq est arbitraire, afin de définir une marge assez conséquente. Ainsi, le contenu de nos pages n’est pas “collé” à la barre de navigation, présente en haut de chaque page.
+-->
