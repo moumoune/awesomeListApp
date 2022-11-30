@@ -5,11 +5,14 @@ import { PlanningComponent } from './planning/planning/planning.component';
 import { ProfilComponent } from './profil/profil/profil.component';
 import { WorkdayComponent } from './workday/workday/workday.component';
 import { ProtectedComponent } from './protected.component';
+import { AuthGuard } from '../core/guards/auth.guard';
 
 const routes: Routes = [
   {
    path: 'app',
    component:ProtectedComponent,
+   canActivate: [AuthGuard],
+   canActivateChild: [AuthGuard],
    children: [
     {
       path: 'dashboard',
