@@ -10,7 +10,7 @@ import { LayoutService } from '../../services/layout.service';
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
   homePath: string = 'home';
   loginPath: string = 'login';
   registerPath: string = 'register';
@@ -29,8 +29,7 @@ export class NavbarComponent implements OnInit {
    }
   
   ngOnInit() {
-    this.subscription = 
-    this.authService.user$.subscribe(user => this.user = user);
+    this.subscription = this.authService.user$.subscribe(user => this.user = user);
    }
    
    ngOnDestroy() {
