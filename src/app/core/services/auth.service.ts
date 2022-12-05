@@ -71,7 +71,7 @@ export class AuthService {
    };
 
    this.loaderService.setLoading(true);
-   return this.http.post(url, data, httpOptions).pipe(
+   return this.http.post<User>(url, data, httpOptions).pipe(
     switchMap((data: any) => {
      const jwt: string = data.idToken;
      const user = new User({
@@ -114,6 +114,7 @@ export class AuthService {
   this.user.next(null);
   this.router.navigate(['/login']);
  }
+
  public updateUserState(user: User): Observable<User|null> {
   this.loaderService.setLoading(true);
   

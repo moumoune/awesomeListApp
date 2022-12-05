@@ -19,6 +19,10 @@ export class WorkdayFormTasksItemComponent implements OnInit {
   ngOnInit(): void {
   }
   
+  selectTodo(todo: number) {
+    this.task.patchValue({todo: todo});
+  }
+
   removeTask(index: number) {
     this.removedTask.emit(index);
    }

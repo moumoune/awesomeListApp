@@ -89,7 +89,7 @@ export class UsersService {
   }
 
   update(user: User): Observable<User|null> {
-    const url = `${environment.firebase.firestore.baseURL}/users/${user.id}?
+    const url = `${environment.firebase.firestore.baseURL}/users/${user.id}
      key=${environment.firebase.apiKey}&currentDocument.exists=true`;
     const data = this.getDataForFirestore(user);
     const httpOptions = {
@@ -100,9 +100,9 @@ export class UsersService {
     };
     
     return this.http.patch(url, data, httpOptions).pipe(
-      switchMap((data: any) => {
-       return of(this.getUserFromFirestore(data.fields));
-      })
-     );
-    }
+     switchMap((data: any) => {
+      return of(this.getUserFromFirestore(data.fields));
+     })
+    );
+   }
 }

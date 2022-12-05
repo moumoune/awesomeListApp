@@ -22,11 +22,11 @@ export class ParametersComponent implements OnInit {
     })
   }
 
-  onSubmit(){
+  onSubmit() {
     const user: User|null = this.authService.currentUser;
-    if(user) {
-    user.pomodoroDuration = this.parametersForm.get('pomodoro')?.value * 60;
-    this.authService.updateUserState(user).subscribe();
-    }
+        if(user) {
+        user.pomodoroDuration = this.parametersForm.get('pomodoro')?.value * 60;
+        this.authService.updateUserState(user).subscribe();
+      }
+   }
   }
-}
