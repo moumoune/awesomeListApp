@@ -91,6 +91,7 @@ export class WorkdayFormComponent implements OnInit {
     this.resetWorkdayForm();
     if(!workday) return;
 
+    this.workdayId = workday.id as string;
     this.notes.setValue(workday.notes);
     workday.tasks.forEach(task => {
      const taskField: FormGroup = this.fb.group({
