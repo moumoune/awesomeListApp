@@ -114,7 +114,7 @@ export class WorkdayFormComponent implements OnInit {
 
   // Update workday
   if(this.workdayId) {
-   const workdayToUpdate: Workday = new Workday({...{userId: user.id }, ...{id: this.workdayId }, ...this.workdayForm.value});
+   const workdayToUpdate: Workday = new Workday({...this.workdayForm.value, userId: user.id, id: this.workdayId });
 
    this.workdaysService.update(workdayToUpdate).subscribe({
       next: () => this.router.navigate(['/app/planning']),
@@ -124,7 +124,7 @@ export class WorkdayFormComponent implements OnInit {
   }
 
   // Create workday
-  const workdayToCreate = new Workday({...{userId: user.id }, ...this.workdayForm.value});
+  const workdayToCreate = new Workday({...this.workdayForm.value, userId: user.id});
   this.workdaysService.save(workdayToCreate).subscribe({
     next: () => this.router.navigate(['/app/planning']),
     error: () => this.workdayForm.reset()
