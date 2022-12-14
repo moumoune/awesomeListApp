@@ -25,14 +25,8 @@ export class WorkdayFormComponent implements OnInit {
     ) { }
   
   ngOnInit() {
-  this.route.queryParams.subscribe(params => {
-   this.workdayId = '';
-   this.workdayForm = this.createWorkdayForm();
-   if(params['date']) {
-    const date: Date = new Date (+params['date']* 1000);
-    this.dueDate.setValue(date);
-   }
-  });
+  this.workdayId = '';
+  this.workdayForm = this.createWorkdayForm();
   }
   
   
@@ -65,11 +59,13 @@ export class WorkdayFormComponent implements OnInit {
    }
 
    onDateSelected(displayDate: string) {
-    this.workdaysService.getWorkdayByDate(displayDate).subscribe(workday => {
+    const user: User|null = this.authService.currentUser;
+    if(user && user.id) {
+    this.workdaysService.getWorkdayByDate(displayDate, user.id).subscribe(workday => {
      this.resetWorkdayForm();
      if(!workday) return;
          
-     this.workdayId = workday.id;
+     this.workdayId = workday.id as string;
      this.notes.setValue(workday.notes);
      workday.tasks.forEach(task => {
       const taskField: FormGroup = this.fb.group({
@@ -81,27 +77,8 @@ export class WorkdayFormComponent implements OnInit {
      }); 
     }); 
    }
-//Version sans l'erreur
-   /*onDateSelected(displayDate: string) {
-  const user: User|null = this.authService.currentUser;
-     
-  if(user && user.id) {
-   this.workdaysService.getWorkdayByDate(displayDate, user.id).subscribe(workday => {
-    this.resetWorkdayForm();      
-    if(!workday) return;
-              
-    this.notes.setValue(workday.notes);
-    workday.tasks.forEach(task => {
-     const taskField: FormGroup = this.fb.group({
-      title: task.title,
-      todo: task.todo,
-      done: task.done
-     });
-     this.tasks.push(taskField);
-    });
-   });
   }
- }  */
+
   
  submit(): void {
   const user: User|null = this.authService.currentUser;
@@ -114,19 +91,19 @@ export class WorkdayFormComponent implements OnInit {
   if(this.workdayId) {
    const workdayToUpdate: Workday = new Workday({...{userId: user.id }, ...{id: this.workdayId }, ...this.workdayForm.value});
      
-   this.workdaysService.update(workdayToUpdate).subscribe(
-    _ => this.router.navigate(['/app/planning']),
-    _ => this.workdayForm.reset()
-   );
+   this.workdaysService.update(workdayToUpdate).subscribe({
+    next: () => this.router.navigate(['/app/planning']),
+    error: () => this.workdayForm.reset()
+   });
    return;
   }
  
   // Create workday
   const workdayToCreate = new Workday({...{userId: user.id }, ...this.workdayForm.value});
-  this.workdaysService.save(workdayToCreate).subscribe(
-   _ => this.router.navigate(['/app/planning']),
-   _ => this.workdayForm.reset()
-  );
+  this.workdaysService.save(workdayToCreate).subscribe({
+   next: () => this.router.navigate(['/app/planning']),
+   error: ()=> this.workdayForm.reset()
+  });
  }
 }
  
